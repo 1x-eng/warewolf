@@ -1,14 +1,14 @@
 import { inject, injectable } from "inversify";
 import { IRobot } from "../../domain/robot/IRobot";
-import { Robot } from "../../domain/robot/Robot";
 import { RobotCommand } from "../../domain/robot/Direction";
+import { INV_DEPENDENCY_TYPES } from '../../sys/symbols';
 
 @injectable()
 export class RobotController {
   private robot: IRobot;
   private commandHandlers: Record<RobotCommand, () => void>;
 
-  constructor(@inject(Robot) robot: IRobot) {
+  constructor(@inject(INV_DEPENDENCY_TYPES.Robot) robot: IRobot) {
     this.robot = robot;
     this.commandHandlers = {
       [RobotCommand.MoveNorth]: () => this.robot.moveNorth(),
@@ -23,7 +23,7 @@ export class RobotController {
       const handler = this.commandHandlers[command];
       if (handler) {
         handler();
-        console.log(`Robot moved ${command}, position: ${this.robot.getPosition()}`);
+        console.log(`Robot moved ${command}, position: ${JSON.stringify(this.robot.getPosition())}`);
       } else {
         throw new Error(`Invalid command: ${command}`);
       }

@@ -1,9 +1,7 @@
 import { EventEmitter } from 'events';
-import { injectable } from "inversify";
 import { IRobot } from "./IRobot";
 import { Direction } from "./Direction";
 
-@injectable()
 export class Robot extends EventEmitter implements IRobot {
   private position = { x: 0, y: 0 };
   private readonly gridSize: { x: number; y: number };
