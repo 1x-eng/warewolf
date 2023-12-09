@@ -1,10 +1,4 @@
-export enum Direction {
-    North = 'north',
-    South = 'south',
-    East = 'east',
-    West = 'west'
-  }
-  
+import { Direction } from "./Direction";
 
 // Define the structure of events emitted by the Robot class.
 export interface RobotEvents {
