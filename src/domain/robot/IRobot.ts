@@ -24,5 +24,9 @@ export interface IRobot {
      * @returns The current position as { x: number; y: number; }
      */
     getPosition(): { x: number; y: number; };
-  }
-  
+}
+
+export interface IRobotConfig {
+    gridSizeX: number;
+    gridSizeY: number;
+}
