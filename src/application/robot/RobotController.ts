@@ -18,15 +18,22 @@ export class RobotController {
     };
   }
 
-  executeCommands(commands: RobotCommand[]): void {
+  private isValidCommand(command: string): command is RobotCommand {
+    return Object.values(RobotCommand).includes(command as RobotCommand);
+  }
+
+  executeCommands(commandString: string): void {
+    const commands = commandString.split(' ')
+
     commands.forEach(command => {
-      const handler = this.commandHandlers[command];
-      if (handler) {
-        handler();
-        console.log(`Robot moved ${command}, position: ${JSON.stringify(this.robot.getPosition())}`);
-      } else {
+
+      if (!this.isValidCommand(command)) {
         throw new Error(`Invalid command: ${command}`);
       }
+
+      const handler = this.commandHandlers[command as RobotCommand];
+      handler();
+      console.log(`Robot moved ${command}, position: ${JSON.stringify(this.robot.getPosition())}`);
     });
   }
 }

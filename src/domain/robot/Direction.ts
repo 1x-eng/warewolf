@@ -10,4 +10,4 @@ export enum RobotCommand {
     MoveSouth = 'S',
     MoveEast = 'E',
     MoveWest = 'W',
-  }
+}
