@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "incremental": true,
-    "target": "es2017",
-    "outDir": "build/main",
+    "target": "es2019",
+    "outDir": "dist/main",
     "rootDir": "src",
     "moduleResolution": "node",
     "module": "commonjs",
