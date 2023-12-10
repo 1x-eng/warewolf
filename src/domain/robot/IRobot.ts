@@ -1,3 +1,5 @@
+import { RobotEvent, RobotEventType } from "./IRobotEvent";
+
 export interface IRobot {
     /**
      * Moves the robot north. Emits a 'moved' event if the movement is successful.
@@ -24,6 +26,15 @@ export interface IRobot {
      * @returns The current position as { x: number; y: number; }
      */
     getPosition(): { x: number; y: number; };
+
+    /**
+     * Registers an event listener for the specified event.
+     *
+     * @param {RobotEventType} event - The type of event to listen for.
+     * @param {(event: RobotEvent) => void} listener - The function to be called when the event occurs.
+     * @returns {this} - The current instance of the class.
+     */
+    on(event: RobotEventType, listener: (event: RobotEvent) => void): this;
 }
 
 export interface IRobotConfig {

@@ -1,27 +1,29 @@
 import "reflect-metadata";
-import { DIContainer } from "./sys/inversify.config";
-import { RobotController } from "./application/robot/RobotController";
+import { program } from 'commander';
+import { DIContainer } from './sys/inversify.config';
+import { RobotController } from './application/robot/RobotController';
+import logger from './utils/logger';
 
-function parseCommandSequence(args: string[]): string {
-  if (args.length === 0) {
-    throw new Error("No command sequence provided. Please provide a sequence of commands.");
-  }
-  return args.join(' ');
-}
 
-function main() {
-  try {
+program
+  .name("warewolf")
+  .description("Control the Warewolf robot")
+  .argument('<commandSequence>', 'Command sequence to move the robot. eg. N S E W')
+  .usage('[options] <commandSequence>')
+  .on('--help', () => {
+    console.log('\nExample call:\n  $ yarn start \'N S E W\'')
+  })
+  .action((commandSequence) => {
     const controller = DIContainer.get<RobotController>(RobotController);
+    try {
+      const commands = commandSequence.split(/\s+/);
+      controller.executeCommands(commands);
+      logger.info("Hey, Warewolf here and I've moved as per your instructions.");
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+      logger.error(`Error: ${errorMessage}`);
+      process.exit(1);
+    }
+  });
 
-    const commandSequence = parseCommandSequence(process.argv.slice(2));
-    controller.executeCommands(commandSequence);
-
-    console.log("Hey, Warewolf here and I've moved as per your instructions.");
-  } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
-    console.error(`Error: ${errorMessage}`);
-    process.exit(1);
-  }
-}
-
-main();
+program.parse(process.argv);

@@ -3,8 +3,7 @@ import { inject, injectable } from "inversify";
 import { IRobot, IRobotConfig } from "./IRobot";
 import { Direction } from "./Direction";
 import { INV_DEPENDENCY_TYPES } from '../../sys/symbols';
-
-type RobotEvent = 'moved'; 
+import { RobotEvent, RobotEventType } from './IRobotEvent';
 
 @injectable()
 export class Robot implements IRobot {
@@ -36,11 +35,11 @@ export class Robot implements IRobot {
     return this.position;
   }
 
-  emit(event: RobotEvent | symbol, ...args: any[]): boolean {
-    return this.eventEmitter.emit(event, ...args);
+  emit(event: RobotEventType, data: RobotEvent): boolean {
+    return this.eventEmitter.emit(event, data);
   }
 
-  on(event: RobotEvent, listener: (...args: any[]) => void): this {
+  on(event: RobotEventType, listener: (event: RobotEvent) => void): this {
     this.eventEmitter.on(event, listener);
     return this;
   }
@@ -51,7 +50,7 @@ export class Robot implements IRobot {
     if (newPosition.x >= 0 && newPosition.x < this.gridSize.x &&
         newPosition.y >= 0 && newPosition.y < this.gridSize.y) {
       this.position = newPosition;
-      this.emit('moved', { direction, position: this.position });
+      this.emit(RobotEventType.Moved, { type: RobotEventType.Moved, direction, position: this.position, gridSize: this.gridSize });
     }
   }
 }

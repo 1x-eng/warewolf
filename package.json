@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
-    "dev": "nodemon -- ./src/index.ts N E S W",
+    "dev": "nodemon -- ./src/index.ts 'N E S W'",
     "test": "jest",
     "test:watch": "jest --watch"
   },
@@ -20,8 +20,10 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
+    "commander": "^11.1.0",
     "dotenv": "^16.3.1",
     "inversify": "^6.0.2",
-    "reflect-metadata": "^0.1.14"
+    "reflect-metadata": "^0.1.14",
+    "winston": "^3.11.0"
   }
 }
