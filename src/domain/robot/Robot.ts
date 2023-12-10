@@ -45,12 +45,13 @@ export class Robot implements IRobot {
   }
 
   private move(direction: Direction, delta: { x: number; y: number }): void {
+    const oldPosition = { ...this.position };
     const newPosition = { x: this.position.x + delta.x, y: this.position.y + delta.y };
     
     if (newPosition.x >= 0 && newPosition.x < this.gridSize.x &&
         newPosition.y >= 0 && newPosition.y < this.gridSize.y) {
       this.position = newPosition;
-      this.emit(RobotEventType.Moved, { type: RobotEventType.Moved, direction, position: this.position, gridSize: this.gridSize });
+      this.emit(RobotEventType.Moved, { type: RobotEventType.Moved, direction, oldPosition, currentPosition: this.position, gridSize: this.gridSize });
     }
   }
 }

@@ -11,7 +11,8 @@ interface IRobotEvent {
 interface IRobotMovedEvent extends IRobotEvent {
 type: RobotEventType.Moved;
 direction: Direction;
-position: { x: number; y: number };
+oldPosition: { x: number; y: number };
+currentPosition: { x: number; y: number };
 gridSize: { x: number; y: number };
 }
 
