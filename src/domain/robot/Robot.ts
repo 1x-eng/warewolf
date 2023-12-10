@@ -4,6 +4,7 @@ import { IRobot, IRobotConfig } from "./IRobot";
 import { Direction } from "./Direction";
 import { INV_DEPENDENCY_TYPES } from '../../sys/symbols';
 import { RobotEvent, RobotEventType } from './IRobotEvent';
+import logger from '../../utils/logger';
 
 @injectable()
 export class Robot implements IRobot {
@@ -52,6 +53,8 @@ export class Robot implements IRobot {
         newPosition.y >= 0 && newPosition.y < this.gridSize.y) {
       this.position = newPosition;
       this.emit(RobotEventType.Moved, { type: RobotEventType.Moved, direction, oldPosition, currentPosition: this.position, gridSize: this.gridSize });
+    } else {
+      logger.info(`Move ignored: Attempted to move ${direction} from (${oldPosition.x}, ${oldPosition.y}) to (${newPosition.x}, ${newPosition.y}), which is outside the grid boundaries.`);
     }
   }
 }
